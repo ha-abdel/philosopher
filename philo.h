@@ -17,41 +17,55 @@ typedef struct s_allocs
 	struct s_allocs	*next;
 }					t_allocs;
 
-
-
-typedef struct philo
-{
-    pthread_t   phil;
-    pthread_mutex_t *left;
-    pthread_mutex_t *right;
-    pthread_mutex_t lock;
-    int number;
+typedef struct s_args {
+    int num_philos;
     int time_to_die;
     int time_to_eat;
     int time_to_sleep;
-    int must_eat;
-} t_philo;
-
+    int must_eat_count;
+}   t_args;
 
 typedef struct data
 {
     int nb_philo;
     pthread_mutex_t **forks;
-    t_philo         **philos;
+    // t_philo         **philos;
+    t_args          *args;
+    long long       start_time;
 
 } t_data;
 
+typedef struct philo
+{
+    t_data      *data;
+    pthread_t   thread;
+    pthread_mutex_t *left;
+    pthread_mutex_t *right;
+    pthread_mutex_t lock;
+    int             number;
+    int             time_to_die;
+    int             time_to_eat;
+    int             time_to_sleep;
+    int             must_eat;
+    long            last_meal;
+} t_philo;
+
+
+
+
+
 
 /* FUNCTIONS */
+long long get_timestamp_ms(void);
+void	*ft_malloc(size_t size, int flag);
 void    think(t_philo **philo);
-void    sleep(t_philo **philo);
+void    ft_sleep(t_philo **philo);
 void    eat(t_philo **philo);
 int	ft_atoi(char *str, int *flag);
 void	*ft_memset(void *b, int c, int len);
 void	ft_free(t_allocs **lst);
-void	*ft_malloc(size_t size, int flag);
+// void	*ft_malloc(size_t size, int flag);
 void	*ft_calloc(int count, int size);
 void    precise_usleep(long ms);
-long get_timestamp_ms(void);
 
 #endif

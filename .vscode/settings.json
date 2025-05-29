@@ -1,3 +1,6 @@
 {
-    "functionHeaderExtension.headerFilePath": "/home/abdel-ha/Desktop/Philo/philo.h"
+    "functionHeaderExtension.headerFilePath": "/home/abdel-ha/Desktop/Philo/philo.h",
+    "files.associations": {
+        "philo.h": "c"
+    }
 }

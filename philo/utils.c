@@ -1,10 +1,10 @@
 #include "../philo.h"
 
-long get_timestamp_ms(void)
+long long get_timestamp_ms(void)
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);  // Get current time
-    return (tv.tv_sec * 1000L) + (tv.tv_usec / 1000L);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 }
 
 void    precise_usleep(long ms)

@@ -13,7 +13,7 @@ int	ft_atoi(char *str, int *flag)
 	{
         if((str[i] < '0' && str[i] > '9') || nb > __INT_MAX__)
         {
-            flag = 1;
+            *flag = 1;
             return 0;
         }
 		nb = nb * 10 + str[i] - '0';
