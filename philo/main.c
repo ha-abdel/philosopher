@@ -15,7 +15,7 @@ int	check_death(t_philo **philo)
 
 void	handle_thread_unlock(t_philo **philo)
 {
-	pthread_mutex_unlock(&(*philo)->data->eat_lock);
+	// pthread_mutex_unlock(&(*philo)->data->eat_lock);
 	pthread_mutex_unlock((*philo)->left);
 	pthread_mutex_unlock((*philo)->right);
 }
@@ -37,10 +37,14 @@ int	handle_thread(t_philo **philo)
 		print_taken_fork(philo);
 		pthread_mutex_lock(&(*philo)->data->eat_lock);
 		if ((*philo)->must_eat <= 0 && !(*philo)->data->infinite)
-			return (handle_thread_unlock(philo), SUCCESS);
+			return (pthread_mutex_unlock(&(*philo)->data->eat_lock),
+				handle_thread_unlock(philo), SUCCESS);
+		pthread_mutex_unlock(&(*philo)->data->eat_lock);
 		if (eat(philo) == FAILURE)
 			return (handle_thread_unlock(philo), FAILURE);
+		pthread_mutex_lock(&(*philo)->data->eat_lock);
 		(*philo)->must_eat--;
+		pthread_mutex_unlock(&(*philo)->data->eat_lock);
 		handle_thread_unlock(philo);
 		if (ft_sleep(philo) == FAILURE || think(philo) == FAILURE)
 			return (FAILURE);
@@ -54,7 +58,7 @@ void	*routine(void *ptr)
 
 	philo = ptr;
 	if (philo->nb % 2 == 0)
-		usleep(1000);
+		usleep(100);
 	handle_thread(&philo);
 	return (NULL);
 }
